@@ -71,7 +71,7 @@ body {
 .home-hero {
   background: linear-gradient(145deg, #8B6FFF 0%, #6C4DFF 40%, #5B3EFF 100%);
   border-radius: 0 0 36px 36px;
-  padding: 24px 24px 28px;
+  padding: 52px 24px 28px;
   position: relative;
   overflow: hidden;
 }
@@ -112,18 +112,25 @@ body {
   border-radius: 50%;
   border: 2px solid transparent;
 }
-.brand-bar {
-  background: #0A0A0F;
+.brand-badge {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 18px 24px;
+  gap: 10px;
 }
-.brand-logo {
-  width: 100%;
-  max-width: 280px;
-  height: auto;
+.brand-badge-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  object-fit: cover;
   display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.brand-badge-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.2px;
+  line-height: 1;
 }
 .home-hero-content {
   display: flex;
