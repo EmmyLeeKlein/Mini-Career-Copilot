@@ -245,6 +245,14 @@ function renderDetail() {
 
   document.getElementById('detail-example').textContent = q.example;
 
+  // Show edited indicator on action buttons if user has saved an edit
+  const editBtn = document.querySelector('.detail-action-btn--secondary');
+  if (editBtn) {
+    editBtn.innerHTML = hasEditedAnswer(currentQuestionIndex)
+      ? `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2l3 3-9 9H2v-3L11 2z" stroke="#6C4DFF" stroke-width="1.5" stroke-linejoin="round"/></svg> Edited ✓`
+      : `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2l3 3-9 9H2v-3L11 2z" stroke="#6C4DFF" stroke-width="1.5" stroke-linejoin="round"/></svg> Edit Answer`;
+  }
+
   // Bookmark state
   const bookmarkBtn = document.getElementById('detail-bookmark');
   if (savedSet.has(currentQuestionIndex)) {
@@ -289,9 +297,9 @@ function navigateQuestion(dir) {
   document.querySelector('.detail-scroll').scrollTop = 0;
 }
 
-// ─── Edit Answer (placeholder) ────────────────────────────────
+// ─── Edit Answer — delegates to AnswerEditor.js ───────────────────────────────
 function editAnswer() {
-  showToast('Answer editing coming soon!');
+  openAnswerEditor(currentQuestionIndex);
 }
 
 // ─── Toast ────────────────────────────────────────────────────

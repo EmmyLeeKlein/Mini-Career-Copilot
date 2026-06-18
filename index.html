@@ -461,6 +461,129 @@
 
 
   <!-- ═══════════════════════════════════════
+       SCREEN 5: ANSWER EDITOR
+  ═══════════════════════════════════════ -->
+  <div id="screen-editor" class="screen">
+
+    <div class="screen-header screen-header--white">
+      <button class="back-btn" onclick="closeAnswerEditor()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 16l-6-6 6-6" stroke="#1F2340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="screen-header-center">
+        <span class="screen-header-label">Edit Your Answer</span>
+      </div>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="editor-body">
+
+      <!-- Question context -->
+      <div class="editor-question-card">
+        <div class="editor-meta-row">
+          <span class="detail-meta-tag" id="editor-role-tag"></span>
+          <span class="detail-meta-tag" style="background:#DDEBFF;color:#4B7FFF" id="editor-level-tag"></span>
+        </div>
+        <p class="editor-question-text" id="editor-question-text"></p>
+      </div>
+
+      <!-- Original AI answer (reference) -->
+      <div class="editor-reference-card">
+        <div class="editor-reference-label">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5 3.5.5-2.5 2.5.5 3.5L7 9.5 4 11l.5-3.5L2 5l3.5-.5L7 1z" fill="#6C4DFF"/></svg>
+          AI-generated example (for reference)
+        </div>
+        <p class="editor-reference-text" id="editor-original-text"></p>
+      </div>
+
+      <!-- Textarea -->
+      <div class="editor-field-group">
+        <label class="editor-field-label" for="editor-textarea">Your personalized answer</label>
+        <textarea
+          id="editor-textarea"
+          class="editor-textarea"
+          placeholder="Write your own answer here. Use the AI example above as a guide, but make it your own — add your real experiences, projects, and voice."
+          oninput="updateCharCount()"
+          rows="8"
+        ></textarea>
+        <div class="editor-field-footer">
+          <p class="validation-msg" id="editor-error"></p>
+          <span class="editor-char-count" id="editor-char-count">0 characters</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <button class="btn-primary" id="editor-save-btn" onclick="saveEditedAnswer()">
+        ✓  Save Answer
+      </button>
+      <button class="btn-secondary" onclick="resetToOriginal()">
+        ↩ Reset to AI Answer
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SCREEN 6: SAVED QUESTIONS
+  ═══════════════════════════════════════ -->
+  <div id="screen-saved" class="screen">
+
+    <div class="questions-header">
+      <div class="questions-header-left">
+        <div class="qh-title-row">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v13l-6-3.5L4 17V4a1 1 0 011-1z" fill="#6C4DFF"/></svg>
+          <h2 class="qh-title">Saved Questions</h2>
+        </div>
+        <p class="qh-meta" id="saved-header-meta"></p>
+      </div>
+      <span class="saved-count-badge" id="saved-count-badge">0 saved</span>
+    </div>
+
+    <div class="saved-scroll">
+
+      <!-- Empty state -->
+      <div id="saved-empty-state" class="saved-empty-state">
+        <div class="saved-empty-icon">🔖</div>
+        <p class="saved-empty-title">No saved questions yet</p>
+        <p class="saved-empty-desc">Tap the bookmark icon on any question to save it here for practice.</p>
+        <button class="btn-primary" style="margin-top:16px" onclick="showScreen('screen-questions')">
+          Browse Questions
+        </button>
+      </div>
+
+      <!-- Saved cards list -->
+      <div id="saved-questions-container"></div>
+
+      <!-- Clear all -->
+      <button class="btn-secondary" id="clear-all-btn" onclick="clearAllSaved()" style="margin-top:8px">
+        🗑 Clear All Saved
+      </button>
+
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="showScreen('screen-home')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3l8 6.5V19a1 1 0 01-1 1H14v-5h-4v5H4a1 1 0 01-1-1V9.5z" stroke="#A6ABC8" stroke-width="1.8" fill="none"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="nav-item nav-item--active">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#6C4DFF"/><path d="M7 8h8M7 12h6M7 16h4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>My Kits</span>
+      </button>
+      <button class="nav-item">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
+        <span>Simulations</span>
+      </button>
+      <button class="nav-item">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#A6ABC8" stroke-width="1.8"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Profile</span>
+      </button>
+    </nav>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
        ERROR TOAST
   ═══════════════════════════════════════ -->
   <div id="error-toast" class="error-toast hidden">
@@ -468,6 +591,8 @@
   </div>
 
   <script src="ai.js"></script>
+  <script src="AnswerEditor.js"></script>
+  <script src="SavedQuestions.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
