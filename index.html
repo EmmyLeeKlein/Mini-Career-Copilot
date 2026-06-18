@@ -7,6 +7,136 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Simulation screen styles — scoped here so style.css stays untouched.
+       Uses the same CSS variables as style.css. Can be moved into style.css later. -->
+  <style id="simulation-styles">
+    #screen-simulation { background: var(--bg); }
+
+    .sim-header {
+      background: var(--bg);
+      padding: 52px 20px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+    .sim-header-title { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+    .sim-header-icon-btn {
+      width: 36px; height: 36px;
+      background: white; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-card); flex-shrink: 0;
+    }
+
+    .sim-scroll {
+      flex: 1; overflow-y: auto;
+      padding: 4px 20px 120px;   /* bottom space clears the fixed input bar */
+      display: flex; flex-direction: column; gap: 18px;
+    }
+
+    /* Scenario picker panel */
+    .sim-scenario-panel {
+      background: linear-gradient(150deg, #8B6FFF 0%, #6C4DFF 55%, #5B3EFF 100%);
+      border-radius: var(--radius-card);
+      padding: 18px 16px;
+      box-shadow: var(--shadow-float);
+    }
+    .sim-scenario-panel-label { font-size: 14px; font-weight: 700; color: white; margin-bottom: 14px; }
+    .sim-scenario-row {
+      display: flex; gap: 10px; overflow-x: auto;
+      padding-bottom: 4px; margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .sim-scenario-row::-webkit-scrollbar { display: none; }
+    .sim-scenario-card {
+      flex: 0 0 84px;
+      background: white; border-radius: 18px;
+      padding: 14px 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      text-align: center; position: relative;
+      border: 2px solid transparent;
+      transition: transform 0.12s;
+    }
+    .sim-scenario-card:active { transform: scale(0.96); }
+    .sim-scenario-card.selected { border-color: white; }
+    .sim-scenario-card.selected::after {
+      content: '✓';
+      position: absolute; top: 6px; right: 6px;
+      width: 18px; height: 18px;
+      background: var(--primary); color: white;
+      border-radius: 50%; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sim-scenario-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .sim-scenario-name { font-size: 11px; font-weight: 600; color: var(--text-primary); line-height: 125%; }
+
+    /* Scenario detail card */
+    .sim-scenario-detail { background: white; border-radius: var(--radius-card-sm); padding: 16px; }
+    .sim-scenario-detail-title { font-size: 17px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; }
+    .sim-scenario-detail-desc { font-size: 13px; color: var(--text-secondary); line-height: 150%; margin-bottom: 14px; }
+    .sim-start-btn {
+      width: 100%; height: 48px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white; border-radius: var(--radius-btn);
+      font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: var(--shadow-float); transition: opacity 0.15s;
+    }
+    .sim-start-btn:hover { opacity: 0.92; }
+
+    /* Chat */
+    .sim-chat { display: flex; flex-direction: column; gap: 14px; }
+    .sim-msg { display: flex; gap: 8px; max-width: 85%; }
+    .sim-msg--ai { align-self: flex-start; }
+    .sim-msg--user { align-self: flex-end; flex-direction: row-reverse; }
+    .sim-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--primary-light);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 16px;
+    }
+    .sim-bubble-wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .sim-bubble { padding: 12px 14px; font-size: 14px; line-height: 150%; }
+    .sim-msg--ai .sim-bubble {
+      background: white; color: var(--text-primary);
+      border-radius: 4px 18px 18px 18px; box-shadow: var(--shadow-card);
+    }
+    .sim-msg--user .sim-bubble {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white; border-radius: 18px 4px 18px 18px;
+    }
+    .sim-msg-time { font-size: 10px; color: var(--text-placeholder); display: flex; align-items: center; gap: 3px; }
+    .sim-msg--user .sim-msg-time { justify-content: flex-end; }
+
+    /* Input bar (fixed; replaces bottom nav while practising) */
+    .sim-input-bar {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 32px); max-width: 398px;
+      display: flex; align-items: center; gap: 10px;
+      background: white; border-radius: var(--radius-pill);
+      padding: 8px 8px 8px 18px;
+      box-shadow: 0px 8px 32px rgba(31,35,64,0.14);
+      z-index: 100;
+    }
+    .sim-input {
+      flex: 1; border: none; outline: none;
+      font-family: var(--font); font-size: 14px;
+      color: var(--text-primary); background: transparent;
+    }
+    .sim-input::placeholder { color: var(--text-placeholder); }
+    .sim-input:disabled { opacity: 0.6; }
+    .sim-send-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: var(--shadow-float); transition: opacity 0.15s;
+    }
+    .sim-send-btn:hover { opacity: 0.9; }
+    .sim-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  </style>
 </head>
 <body>
 
@@ -96,7 +226,7 @@
           </div>
         </button>
 
-        <button class="feature-card feature-card--sim" onclick="showScreen('screen-kit')">
+        <button class="feature-card feature-card--sim" onclick="showScreen('screen-simulation')">
           <div class="feature-card-icon feature-card-icon--sim">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
               <rect x="3" y="7" width="16" height="12" rx="3" fill="#DDEBFF"/>
@@ -159,7 +289,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="#A6ABC8" stroke-width="1.8"/><path d="M7 8h8M7 12h6M7 16h4" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>My Kits</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="showScreen('screen-simulation')">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
@@ -288,7 +418,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#6C4DFF"/><path d="M7 8h8M7 12h6M7 16h4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>My Kits</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="showScreen('screen-simulation')">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
@@ -357,7 +487,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#6C4DFF"/><path d="M7 8h8M7 12h6M7 16h4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>My Kits</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="showScreen('screen-simulation')">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
@@ -571,7 +701,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#6C4DFF"/><path d="M7 8h8M7 12h6M7 16h4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>My Kits</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="showScreen('screen-simulation')">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
@@ -580,6 +710,95 @@
         <span>Profile</span>
       </button>
     </nav>
+  </div>
+
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN: INTERVIEW SIMULATION
+  ════════════════════════════════════════ -->
+  <div id="screen-simulation" class="screen">
+
+    <!-- Header -->
+    <div class="sim-header">
+      <button class="back-btn" onclick="showScreen('screen-home')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 16l-6-6 6-6" stroke="#1F2340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="sim-header-title">Interview Simulations</span>
+      <button class="sim-header-icon-btn" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5h7M14 5h1M3 13h1M8 13h7" stroke="#6C4DFF" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="5" r="2" stroke="#6C4DFF" stroke-width="1.6"/><circle cx="6" cy="13" r="2" stroke="#6C4DFF" stroke-width="1.6"/></svg>
+      </button>
+    </div>
+
+    <div class="sim-scroll">
+
+      <!-- Scenario picker -->
+      <div class="sim-scenario-panel">
+        <p class="sim-scenario-panel-label">Choose a scenario</p>
+
+        <div class="sim-scenario-row" id="sim-scenario-row">
+          <button class="sim-scenario-card selected"
+                  data-scenario="First Interview"
+                  data-desc="A typical first interview with general questions about you and your experience."
+                  onclick="selectScenario(this)">
+            <span class="sim-scenario-icon" style="background:#EFEAFF">👥</span>
+            <span class="sim-scenario-name">First Interview</span>
+          </button>
+          <button class="sim-scenario-card"
+                  data-scenario="Stressful Interviewer"
+                  data-desc="A tougher interviewer who challenges your answers and tests how you stay calm under pressure."
+                  onclick="selectScenario(this)">
+            <span class="sim-scenario-icon" style="background:#FFE2E2">😠</span>
+            <span class="sim-scenario-name">Stressful Interviewer</span>
+          </button>
+          <button class="sim-scenario-card"
+                  data-scenario="Behavioral Interview"
+                  data-desc="Focuses on past situations using the STAR method to explore how you actually behaved."
+                  onclick="selectScenario(this)">
+            <span class="sim-scenario-icon" style="background:#FFE6F2">🧠</span>
+            <span class="sim-scenario-name">Behavioral Interview</span>
+          </button>
+          <button class="sim-scenario-card"
+                  data-scenario="Lack of Experience"
+                  data-desc="Designed for candidates with little experience, focusing on potential, learning and transferable skills."
+                  onclick="selectScenario(this)">
+            <span class="sim-scenario-icon" style="background:#FFF1DC">🧑‍💼</span>
+            <span class="sim-scenario-name">Lack of Experience</span>
+          </button>
+        </div>
+
+        <!-- Selected scenario detail -->
+        <div class="sim-scenario-detail">
+          <h3 class="sim-scenario-detail-title" id="sim-detail-title">First Interview</h3>
+          <p class="sim-scenario-detail-desc" id="sim-detail-desc">A typical first interview with general questions about you and your experience.</p>
+          <button class="sim-start-btn" id="sim-start-btn" onclick="startSimulation()">
+            Start Simulation
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l8 5-8 5V2z" fill="white"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat transcript (populated by Simulation.js) -->
+      <div class="sim-chat" id="sim-chat">
+        <div class="sim-msg sim-msg--ai">
+          <div class="sim-avatar">🤖</div>
+          <div class="sim-bubble-wrap">
+            <div class="sim-bubble">Pick a scenario above and tap <b>Start Simulation</b> to begin a live mock interview.</div>
+            <span class="sim-msg-time">Ready</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Answer input bar -->
+    <div class="sim-input-bar">
+      <input class="sim-input" id="sim-input" type="text" placeholder="Type your answer..." aria-label="Type your answer" />
+      <button class="sim-send-btn" id="sim-send-btn" onclick="sendSimMessage()" aria-label="Send">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 9l14-7-5 14-3-5-6-2z" fill="white"/></svg>
+      </button>
+    </div>
+
   </div>
 
 
@@ -593,6 +812,7 @@
   <script src="ai.js"></script>
   <script src="AnswerEditor.js"></script>
   <script src="SavedQuestions.js"></script>
+  <script src="Simulation.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
