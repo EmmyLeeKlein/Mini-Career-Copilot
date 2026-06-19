@@ -57,3 +57,50 @@ async function generateKit(role, level) {
     return { questions: DEMO_QUESTIONS, isDemo: true };
   }
 }
+
+// ─── Simulation: multi-turn interview chat ────────────────────
+// Calls the same Netlify function in "simulation" mode. `history` is the
+// running conversation: [{ role:'assistant'|'user', content }, ...].
+// Falls back to a lightweight scripted interviewer if the function is
+// unavailable (e.g. no API key configured → 503, or backend not yet updated).
+
+const DEMO_SIM_FOLLOWUPS = [
+  "Thanks for sharing. Why does this field interest you the most?",
+  "Good. Can you tell me about a project or experience you're proud of?",
+  "Interesting — how did you handle a challenge or setback in that situation?",
+  "Nice. What's one strength you'd bring to a team here?",
+  "Thank you, that's all my questions. You came across as clear and motivated — try adding one concrete example to each answer to make your responses even stronger. Best of luck!"
+];
+
+function demoSimReply(scenario, history) {
+  const userTurns = history.filter(m => m.role === 'user').length;
+  if (userTurns === 0) {
+    return `Hi there! Let's begin your ${scenario || 'interview'} practice. To start, can you tell me a bit about yourself?`;
+  }
+  return DEMO_SIM_FOLLOWUPS[Math.min(userTurns - 1, DEMO_SIM_FOLLOWUPS.length - 1)];
+}
+
+async function runSimulation({ scenario, role, level, history }) {
+  try {
+    const response = await fetch('/.netlify/functions/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'simulation', scenario, role, level, messages: history })
+    });
+
+    if (!response.ok) {
+      if (response.status === 503) {
+        return { message: demoSimReply(scenario, history), isDemo: true };
+      }
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.message || 'API request failed');
+    }
+
+    const data = await response.json();
+    return { message: data.message, isDemo: false };
+
+  } catch (err) {
+    console.warn('AI simulation unavailable, using demo data:', err.message);
+    return { message: demoSimReply(scenario, history), isDemo: true };
+  }
+}
