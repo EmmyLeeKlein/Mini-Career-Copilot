@@ -92,6 +92,7 @@ function saveEditedAnswer() {
   // Mark question as saved (bookmark) automatically when an answer is edited
   savedSet.add(editorQuestionIndex);
   updateSavedTab();
+  persistState();
 
   // Update the save button label
   document.getElementById('editor-save-btn').textContent = '✓  Update Answer';

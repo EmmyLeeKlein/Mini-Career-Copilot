@@ -165,7 +165,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3l8 6.5V19a1 1 0 01-1 1H14v-5h-4v5H4a1 1 0 01-1-1V9.5z" fill="#6C4DFF"/></svg>
         <span>Home</span>
       </button>
-      <button class="nav-item" onclick="showScreen('screen-kit')">
+      <button class="nav-item" onclick="openMyKits()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="#A6ABC8" stroke-width="1.8"/><path d="M7 8h8M7 12h6M7 16h4" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>My Kits</span>
       </button>
@@ -454,7 +454,7 @@
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 2l3 3-9 9H2v-3L11 2z" stroke="#6C4DFF" stroke-width="1.5" stroke-linejoin="round"/></svg>
           Edit Answer
         </button>
-        <button class="detail-action-btn detail-action-btn--primary" onclick="toggleBookmark()">
+        <button class="detail-action-btn detail-action-btn--primary" id="detail-save-btn" onclick="toggleBookmark()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h10a1 1 0 011 1v11l-6-3-6 3V3a1 1 0 011-1z" fill="white"/></svg>
           Save Question
         </button>

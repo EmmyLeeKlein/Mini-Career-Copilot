@@ -9,6 +9,43 @@ let savedSet      = new Set();   // indices of saved questions
 let currentQuestionIndex = 0;
 let activeTab = 'all';
 
+// ─── Persistence ─────────────────────────────────────────────
+// Kit state lives only in memory, so navigating away (or refreshing)
+// would otherwise wipe generated questions and saved bookmarks.
+// We mirror it into localStorage and restore on load.
+const STORAGE_KEY = 'careerCopilotKit';
+
+function persistState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      selectedRole,
+      selectedLevel,
+      questions,
+      savedSet: [...savedSet],
+      // editedAnswers Map lives in AnswerEditor.js
+      editedAnswers: typeof editedAnswers !== 'undefined' ? [...editedAnswers] : []
+    }));
+  } catch (e) { /* storage unavailable — fall back to in-memory only */ }
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    selectedRole  = s.selectedRole ?? null;
+    selectedLevel = s.selectedLevel ?? null;
+    questions     = Array.isArray(s.questions) ? s.questions : [];
+    savedSet      = new Set(s.savedSet || []);
+    if (typeof editedAnswers !== 'undefined') {
+      (s.editedAnswers || []).forEach(([k, v]) => editedAnswers.set(k, v));
+    }
+    return questions.length > 0;
+  } catch (e) {
+    return false;
+  }
+}
+
 // ─── Screen Navigation ───────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -18,6 +55,26 @@ function showScreen(id) {
     target.scrollTop = 0;
   }
 }
+
+// ─── My Kits ─────────────────────────────────────────────────
+// Opens the user's existing kit (with its saved questions intact)
+// instead of starting a brand-new one. Falls back to the builder
+// only when no kit has been generated yet.
+function openMyKits() {
+  if (questions.length > 0) {
+    renderQuestionsList();
+    showScreen('screen-questions');
+  } else {
+    showScreen('screen-kit');
+  }
+}
+
+// ─── Restore persisted kit on startup ────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  if (loadState() && selectedRole && selectedLevel) {
+    renderQuestionsList();
+  }
+});
 
 // ─── Role Selection ──────────────────────────────────────────
 function selectRole(btn) {
@@ -65,6 +122,8 @@ async function handleGenerate() {
     const result = await generateKit(selectedRole, selectedLevel);
     questions = result.questions;
     savedSet  = new Set();
+    if (typeof editedAnswers !== 'undefined') editedAnswers.clear();
+    persistState();
 
     renderQuestionsList();
     showScreen('screen-questions');
@@ -100,6 +159,7 @@ async function generateMore() {
       nq => !questions.some(eq => eq.question === nq.question)
     );
     questions = [...questions, ...newQ];
+    persistState();
     renderQuestionsList();
   } catch {
     showToast('Could not generate more questions. Try again.');
@@ -197,6 +257,7 @@ function toggleSaveFromList(e, idx) {
   }
   updateSavedTab();
   renderList();
+  persistState();
 }
 
 // ─── Open Question Detail ─────────────────────────────────────
@@ -254,11 +315,17 @@ function renderDetail() {
   }
 
   // Bookmark state
+  const isSaved = savedSet.has(currentQuestionIndex);
   const bookmarkBtn = document.getElementById('detail-bookmark');
-  if (savedSet.has(currentQuestionIndex)) {
-    bookmarkBtn.classList.add('saved');
-  } else {
-    bookmarkBtn.classList.remove('saved');
+  bookmarkBtn.classList.toggle('saved', isSaved);
+
+  // Bottom "Save Question" button reflects saved state so it gives
+  // clear feedback (it was previously a static label that looked inert).
+  const saveBtn = document.getElementById('detail-save-btn');
+  if (saveBtn) {
+    saveBtn.innerHTML = isSaved
+      ? `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Saved ✓`
+      : `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h10a1 1 0 011 1v11l-6-3-6 3V3a1 1 0 011-1z" fill="white"/></svg> Save Question`;
   }
 
   // Prev/Next
@@ -277,14 +344,17 @@ function toggleSection(sectionId) {
 
 // ─── Detail: Bookmark ─────────────────────────────────────────
 function toggleBookmark() {
-  if (savedSet.has(currentQuestionIndex)) {
-    savedSet.delete(currentQuestionIndex);
-  } else {
+  const nowSaved = !savedSet.has(currentQuestionIndex);
+  if (nowSaved) {
     savedSet.add(currentQuestionIndex);
+  } else {
+    savedSet.delete(currentQuestionIndex);
   }
   updateSavedTab();
   renderDetail();
   renderList();
+  persistState();
+  showToast(nowSaved ? 'Question saved!' : 'Removed from saved.');
 }
 
 // ─── Detail: Navigate Questions ──────────────────────────────

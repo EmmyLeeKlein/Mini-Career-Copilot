@@ -128,6 +128,7 @@ function removeSavedQuestion(event, idx) {
   updateSavedTab();
   renderSavedQuestions();
   renderList();
+  persistState();
 
   showToast('Question removed from saved.');
 }
@@ -151,6 +152,7 @@ function clearAllSaved() {
   updateSavedTab();
   renderSavedQuestions();
   renderList();
+  persistState();
 
   showToast('All saved questions cleared.');
 }
