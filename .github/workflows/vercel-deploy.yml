@@ -1,0 +1,31 @@
+name: Vercel Production Deploy
+
+# Fires on EVERY push to main, no matter who authored the commit.
+# The deploy runs on GitHub's runner via the Vercel CLI, so Vercel's
+# commit-author authorization check does not apply.
+on:
+  push:
+    branches: [main]
+
+env:
+  VERCEL_ORG_ID: team_MmsvtoL8DY3zKGv1KTcKikZP
+  VERCEL_PROJECT_ID: prj_YNXzspmPVKI2u4gzIfQbtbwltg68
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel project settings
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to production
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
