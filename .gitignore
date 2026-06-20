@@ -1,5 +1,4 @@
-# Local Netlify folder
-.netlify
+# Local Vercel folder
 .vercel
 
 # Claude Code local files

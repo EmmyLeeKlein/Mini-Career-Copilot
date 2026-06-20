@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/.netlify/functions/ai", "destination": "/api/ai" }
-  ]
-}

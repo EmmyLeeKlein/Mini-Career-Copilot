@@ -3,12 +3,12 @@
   "version": "2.0.0",
   "description": "AI-powered interview preparation kit generator",
   "scripts": {
-    "dev": "netlify dev",
-    "start": "netlify dev"
+    "dev": "vercel dev",
+    "start": "vercel dev"
   },
   "dependencies": {},
   "devDependencies": {
-    "netlify-cli": "^17.0.0"
+    "vercel": "^39.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

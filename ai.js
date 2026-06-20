@@ -1,4 +1,4 @@
-// ai.js — Frontend module that calls the Netlify serverless function
+// ai.js — Frontend module that calls the Vercel serverless function
 
 const DEMO_QUESTIONS = [
   {
@@ -35,7 +35,7 @@ const DEMO_QUESTIONS = [
 
 async function generateKit(role, level) {
   try {
-    const response = await fetch('/.netlify/functions/ai', {
+    const response = await fetch('/api/ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ role, level })
@@ -59,7 +59,7 @@ async function generateKit(role, level) {
 }
 
 // ─── Simulation: multi-turn interview chat ────────────────────
-// Calls the same Netlify function in "simulation" mode. `history` is the
+// Calls the same Vercel function in "simulation" mode. `history` is the
 // running conversation: [{ role:'assistant'|'user', content }, ...].
 // Falls back to a lightweight scripted interviewer if the function is
 // unavailable (e.g. no API key configured → 503, or backend not yet updated).
@@ -82,7 +82,7 @@ function demoSimReply(scenario, history) {
 
 async function runSimulation({ scenario, role, level, history }) {
   try {
-    const response = await fetch('/.netlify/functions/ai', {
+    const response = await fetch('/api/ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'simulation', scenario, role, level, messages: history })

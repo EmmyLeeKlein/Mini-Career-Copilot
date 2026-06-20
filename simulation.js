@@ -7,7 +7,7 @@
 //          user answers      (typed into #sim-input)
 // Outputs: a running chat transcript rendered into #sim-chat
 //
-// Connects to: ai.js   (runSimulation — calls the Netlify serverless function)
+// Connects to: ai.js   (runSimulation — calls the Vercel serverless function)
 //              app.js  (showScreen, showToast, escapeHtml, selectedRole, selectedLevel)
 //
 // Note: a simulation is STATEFUL. Unlike the one-shot kit, every turn we send
