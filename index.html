@@ -106,7 +106,7 @@
           </div>
         </button>
 
-        <button class="feature-card feature-card--sim" onclick="showScreen('screen-kit')">
+        <button class="feature-card feature-card--sim" onclick="showScreen('screen-simulation')">
           <div class="feature-card-icon feature-card-icon--sim">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
               <rect x="3" y="7" width="16" height="12" rx="3" fill="#DDEBFF"/>
@@ -594,6 +594,69 @@
 
 
   <!-- ═══════════════════════════════════════
+       SCREEN: INTERVIEW SIMULATION
+  ═══════════════════════════════════════ -->
+  <div id="screen-simulation" class="screen">
+
+    <div class="screen-header screen-header--white">
+      <button class="back-btn" onclick="showScreen('screen-home')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 16l-6-6 6-6" stroke="#1F2340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="screen-header-center">
+        <span class="screen-header-label">Interview Simulation</span>
+      </div>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="sim-scroll">
+      <!-- Scenario picker -->
+      <div class="sim-setup">
+        <h2 class="kit-headline">Practice a live<br>mock interview</h2>
+        <p class="kit-subline">Pick a scenario, then chat with your AI interviewer in real time.</p>
+
+        <p class="form-step-label">Choose a scenario</p>
+        <div class="sim-scenario-grid">
+          <button class="sim-scenario-card selected" data-scenario="First Interview" data-desc="A typical first interview with general questions about you and your experience." onclick="selectScenario(this)">
+            <span class="sim-scenario-emoji">👋</span>
+            <span class="sim-scenario-name">First Interview</span>
+          </button>
+          <button class="sim-scenario-card" data-scenario="Stressful Interviewer" data-desc="A demanding interviewer who challenges you with pointed follow-up questions." onclick="selectScenario(this)">
+            <span class="sim-scenario-emoji">🔥</span>
+            <span class="sim-scenario-name">Stressful Interviewer</span>
+          </button>
+          <button class="sim-scenario-card" data-scenario="Behavioral Interview" data-desc="STAR-method questions about real situations from your past." onclick="selectScenario(this)">
+            <span class="sim-scenario-emoji">🧭</span>
+            <span class="sim-scenario-name">Behavioral</span>
+          </button>
+          <button class="sim-scenario-card" data-scenario="Lack of Experience" data-desc="A supportive interview focused on potential and transferable skills." onclick="selectScenario(this)">
+            <span class="sim-scenario-emoji">🌱</span>
+            <span class="sim-scenario-name">Lack of Experience</span>
+          </button>
+        </div>
+
+        <div class="sim-detail">
+          <p class="sim-detail-title" id="sim-detail-title">First Interview</p>
+          <p class="sim-detail-desc" id="sim-detail-desc">A typical first interview with general questions about you and your experience.</p>
+        </div>
+
+        <button class="btn-primary sim-start-btn" onclick="startSimulation()">Start interview</button>
+      </div>
+
+      <!-- Chat transcript -->
+      <div id="sim-chat" class="sim-chat"></div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="sim-inputbar">
+      <input id="sim-input" class="sim-input" type="text" placeholder="Type your answer…" autocomplete="off" disabled />
+      <button id="sim-send-btn" class="sim-send-btn" onclick="sendSimMessage()" disabled aria-label="Send">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10l14-6-6 14-2-6-6-2z" fill="white"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
        ERROR TOAST
   ═══════════════════════════════════════ -->
   <div id="error-toast" class="error-toast hidden">
@@ -602,7 +665,8 @@
 
   <script src="ai.js?v=2"></script>
   <script src="AnswerEditor.js?v=2"></script>
-  <script src="SavedQuestions.js?v=2"></script>
+  <script src="Savedquestions.js?v=2"></script>
   <script src="app.js?v=2"></script>
+  <script src="simulation.js?v=2"></script>
 </body>
 </html>
