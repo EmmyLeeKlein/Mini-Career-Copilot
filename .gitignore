@@ -1,0 +1,9 @@
+# Local Netlify folder
+.netlify
+.vercel
+
+# Claude Code local files
+.claude/
+
+# Deno (from local dev tooling)
+deno.lock
