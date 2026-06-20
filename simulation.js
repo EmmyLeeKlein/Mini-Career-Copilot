@@ -63,7 +63,7 @@ async function startSimulation() {
     simHistory.push({ role: 'assistant', content: result.message });
 
     if (result.isDemo) {
-      showToast('Demo mode — add your OpenAI key in Netlify for live interviews.');
+      showToast('Demo mode — showing a sample interview. Live AI is temporarily unavailable.');
     }
   } catch (err) {
     removeSimTyping();

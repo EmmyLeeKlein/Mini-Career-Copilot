@@ -146,7 +146,7 @@ function callOpenAI(apiKey, messages) {
   return new Promise((resolve, reject) => {
     const requestBody = JSON.stringify({
       model: 'gpt-4o-mini',
-      max_tokens: 800,
+      max_tokens: 2000,
       temperature: 0.7,
       messages
     });
