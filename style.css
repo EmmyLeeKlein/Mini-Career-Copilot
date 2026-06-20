@@ -127,18 +127,23 @@ body {
 .brand-mark {
   display: flex;
   flex-shrink: 0;
-  order: 2;
 }
 .brand-mark img {
-  width: 44px;
-  height: 44px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   display: block;
 }
 .brand-text {
   display: flex;
   flex-direction: column;
+  align-items: center;
   line-height: 1.15;
+}
+.brand-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .brand-name {
   font-size: 23px;
@@ -157,6 +162,7 @@ body {
   letter-spacing: 0.01em;
   margin-top: 2px;
   white-space: nowrap;
+  text-align: center;
 }
 .home-hero-content {
   display: flex;
