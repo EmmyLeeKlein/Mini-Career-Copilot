@@ -19,6 +19,7 @@ let selectedScenario     = 'First Interview';
 let selectedScenarioDesc = 'A typical first interview with general questions about you and your experience.';
 let simHistory           = [];     // [{ role: 'assistant' | 'user', content: string }]
 let simBusy              = false;  // true while waiting on the AI (locks input/buttons)
+let currentSimulationId  = null;   // Supabase simulations.id (signed-in users only)
 
 // ─── Scenario Selection ────────────────────────────────────────────────────────
 /**
@@ -46,21 +47,28 @@ async function startSimulation() {
   if (simBusy) return;
 
   simHistory = [];
+  currentSimulationId = null;
   document.getElementById('sim-chat').innerHTML = '';
   setSimInputEnabled(true);
+
+  const role  = typeof selectedRole  !== 'undefined' ? selectedRole  : null;
+  const level = typeof selectedLevel !== 'undefined' ? selectedLevel : null;
 
   simBusy = true;
   showSimTyping();
   try {
+    currentSimulationId = await dbCreateSimulation(selectedScenario, role, level);
+
     const result = await runSimulation({
       scenario: selectedScenario,
-      role:     typeof selectedRole  !== 'undefined' ? selectedRole  : null,
-      level:    typeof selectedLevel !== 'undefined' ? selectedLevel : null,
+      role,
+      level,
       history:  simHistory
     });
     removeSimTyping();
     addSimMessage('ai', result.message);
     simHistory.push({ role: 'assistant', content: result.message });
+    dbAddSimulationMessage(currentSimulationId, simHistory.length, 'interviewer', result.message);
 
     if (result.isDemo) {
       showToast('Demo mode — showing a sample interview. Live AI is temporarily unavailable.');
@@ -86,20 +94,30 @@ async function sendSimMessage() {
   // If the user starts typing before pressing Start, kick the interview off implicitly.
   addSimMessage('user', text);
   simHistory.push({ role: 'user', content: text });
+  dbAddSimulationMessage(currentSimulationId, simHistory.length, 'candidate', text);
   input.value = '';
+
+  const role  = typeof selectedRole  !== 'undefined' ? selectedRole  : null;
+  const level = typeof selectedLevel !== 'undefined' ? selectedLevel : null;
 
   simBusy = true;
   showSimTyping();
   try {
     const result = await runSimulation({
       scenario: selectedScenario,
-      role:     typeof selectedRole  !== 'undefined' ? selectedRole  : null,
-      level:    typeof selectedLevel !== 'undefined' ? selectedLevel : null,
+      role,
+      level,
       history:  simHistory
     });
     removeSimTyping();
     addSimMessage('ai', result.message);
     simHistory.push({ role: 'assistant', content: result.message });
+    dbAddSimulationMessage(currentSimulationId, simHistory.length, 'interviewer', result.message);
+
+    const userTurns = simHistory.filter(m => m.role === 'user').length;
+    if (userTurns >= 5) {
+      dbCompleteSimulation(currentSimulationId, result.message);
+    }
   } catch (err) {
     removeSimTyping();
     showToast('Could not get a response. Please try again.');

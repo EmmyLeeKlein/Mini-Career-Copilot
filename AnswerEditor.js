@@ -94,6 +94,12 @@ function saveEditedAnswer() {
   updateSavedTab();
   persistState();
 
+  const q = questions[editorQuestionIndex];
+  if (q && q.id) {
+    dbSaveAnswerDraft(q.id, value);
+    dbSetSaved(q.id, true);
+  }
+
   // Update the save button label
   document.getElementById('editor-save-btn').textContent = '✓  Update Answer';
 

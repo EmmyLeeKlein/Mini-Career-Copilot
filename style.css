@@ -1384,3 +1384,9 @@ body {
   box-shadow: var(--shadow-float);
 }
 .sim-send-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+
+/* Welcome gate — no headline above the tab bar, so the default
+   brand-header + kit-body padding stacks into too much dead space,
+   and the tab bar needs its own breathing room before the form. */
+#screen-welcome .kit-body { padding-top: 8px; }
+#screen-welcome .tab-bar { margin-bottom: 24px; }

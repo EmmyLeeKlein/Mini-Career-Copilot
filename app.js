@@ -8,6 +8,7 @@ let questions     = [];
 let savedSet      = new Set();   // indices of saved questions
 let currentQuestionIndex = 0;
 let activeTab = 'all';
+let currentKitId = null;   // Supabase kits.id for the active kit (signed-in users only)
 
 // ─── Persistence ─────────────────────────────────────────────
 // Kit state lives only in memory, so navigating away (or refreshing)
@@ -122,7 +123,15 @@ async function handleGenerate() {
     const result = await generateKit(selectedRole, selectedLevel);
     questions = result.questions;
     savedSet  = new Set();
+    currentKitId = null;
     if (typeof editedAnswers !== 'undefined') editedAnswers.clear();
+
+    const synced = await dbCreateKit(selectedRole, selectedLevel, questions);
+    if (synced) {
+      currentKitId = synced.kitId;
+      questions = synced.questions;
+    }
+
     persistState();
 
     renderQuestionsList();
@@ -155,9 +164,13 @@ async function generateMore() {
 
   try {
     const result = await generateKit(selectedRole, selectedLevel);
-    const newQ = result.questions.filter(
+    let newQ = result.questions.filter(
       nq => !questions.some(eq => eq.question === nq.question)
     );
+
+    const synced = await dbAddQuestions(currentKitId, newQ, questions.length);
+    if (synced) newQ = synced;
+
     questions = [...questions, ...newQ];
     persistState();
     renderQuestionsList();
@@ -250,14 +263,18 @@ function switchTab(tab) {
 // ─── Save/Bookmark from List ──────────────────────────────────
 function toggleSaveFromList(e, idx) {
   e.stopPropagation();
+  let isSaved;
   if (savedSet.has(idx)) {
     savedSet.delete(idx);
+    isSaved = false;
   } else {
     savedSet.add(idx);
+    isSaved = true;
   }
   updateSavedTab();
   renderList();
   persistState();
+  dbSetSaved(questions[idx] && questions[idx].id, isSaved);
 }
 
 // ─── Open Question Detail ─────────────────────────────────────
@@ -354,6 +371,7 @@ function toggleBookmark() {
   renderDetail();
   renderList();
   persistState();
+  dbSetSaved(questions[currentQuestionIndex] && questions[currentQuestionIndex].id, nowSaved);
   showToast(nowSaved ? 'Question saved!' : 'Removed from saved.');
 }
 

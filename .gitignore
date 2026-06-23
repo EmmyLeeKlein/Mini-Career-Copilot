@@ -6,3 +6,9 @@
 
 # Deno (from local dev tooling)
 deno.lock
+
+# Local secrets
+.env
+
+# macOS
+.DS_Store

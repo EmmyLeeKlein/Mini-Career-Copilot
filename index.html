@@ -161,7 +161,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="openProfile()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#A6ABC8" stroke-width="1.8"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>Profile</span>
       </button>
@@ -290,7 +290,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="openProfile()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#A6ABC8" stroke-width="1.8"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>Profile</span>
       </button>
@@ -359,7 +359,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="openProfile()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#A6ABC8" stroke-width="1.8"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>Profile</span>
       </button>
@@ -573,7 +573,7 @@
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
         <span>Simulations</span>
       </button>
-      <button class="nav-item">
+      <button class="nav-item" onclick="openProfile()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" stroke="#A6ABC8" stroke-width="1.8"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
         <span>Profile</span>
       </button>
@@ -645,12 +645,138 @@
 
 
   <!-- ═══════════════════════════════════════
+       SCREEN: WELCOME GATE (SIGN IN / REGISTER / GUEST)
+       Shown once on first load, before screen-home, unless the
+       user already has a session or previously chose Guest.
+  ═══════════════════════════════════════ -->
+  <div id="screen-welcome" class="screen">
+
+    <div class="brand-header">
+      <div class="brand-lockup" role="img" aria-label="Career Copilot — Your AI-powered interview preparation coach">
+        <span class="brand-text">
+          <span class="brand-name-row">
+            <span class="brand-name">Career Copilot</span>
+            <span class="brand-mark">
+              <img src="assets/briefcase.png" alt="" aria-hidden="true" />
+            </span>
+          </span>
+          <span class="brand-tagline">Your AI-powered interview preparation coach</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="kit-body">
+
+      <div class="tab-bar">
+        <button class="tab-btn tab-btn--active" id="auth-tab-login" onclick="showAuthForm('login')">Sign In</button>
+        <button class="tab-btn" id="auth-tab-register" onclick="showAuthForm('register')">Register</button>
+      </div>
+
+      <!-- Login form -->
+      <div id="login-form">
+        <div class="form-step">
+          <p class="form-step-label">Email</p>
+          <input type="email" id="login-email" class="editor-textarea" style="min-height:auto;height:44px" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="form-step">
+          <p class="form-step-label">Password</p>
+          <input type="password" id="login-password" class="editor-textarea" style="min-height:auto;height:44px" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <p class="validation-msg" id="login-error"></p>
+        <button class="btn-primary" id="login-submit-btn" onclick="handleLogin()">Sign In</button>
+      </div>
+
+      <!-- Register form -->
+      <div id="register-form" class="hidden">
+        <div class="form-step">
+          <p class="form-step-label">Email</p>
+          <input type="email" id="register-email" class="editor-textarea" style="min-height:auto;height:44px" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="form-step">
+          <p class="form-step-label">Password</p>
+          <input type="password" id="register-password" class="editor-textarea" style="min-height:auto;height:44px" placeholder="At least 6 characters" autocomplete="new-password" />
+        </div>
+        <p class="validation-msg" id="register-error"></p>
+        <button class="btn-primary" id="register-submit-btn" onclick="handleRegister()">Create Account</button>
+      </div>
+
+      <button class="btn-secondary" style="margin-top:16px" onclick="continueAsGuest()">Continue as Guest</button>
+      <p class="kit-subline" style="margin-top:12px">Sign in to save your kits, saved questions and simulations across devices. You can also use Career Copilot without an account.</p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SCREEN: PROFILE (nav tab)
+  ═══════════════════════════════════════ -->
+  <div id="screen-profile" class="screen">
+
+    <div class="screen-header screen-header--white">
+      <button class="back-btn" onclick="showScreen('screen-home')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 16l-6-6 6-6" stroke="#1F2340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="screen-header-center">
+        <span class="screen-header-label">Profile</span>
+      </div>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="kit-body">
+
+      <!-- Signed in -->
+      <div id="profile-user-view" class="hidden">
+        <div class="form-step">
+          <p class="form-step-label">Signed in as</p>
+          <p class="kit-headline" id="profile-email" style="font-size:18px"></p>
+        </div>
+        <button class="btn-secondary feature-card" style="margin-bottom:10px" onclick="openSavedQuestions()">🔖 Saved Questions</button>
+        <button class="btn-secondary feature-card" style="margin-bottom:16px" onclick="openMyKits()">📋 My Kits</button>
+        <button class="btn-secondary" onclick="handleSignOut()">Sign Out</button>
+      </div>
+
+      <!-- Guest -->
+      <div id="profile-guest-view" class="hidden">
+        <p class="kit-subline">You're browsing as a guest. Sign in to save your kits, saved questions and simulations across devices.</p>
+        <button class="btn-primary" style="margin-bottom:16px" onclick="showScreen('screen-welcome')">Sign In</button>
+        <button class="btn-secondary feature-card" style="margin-bottom:10px" onclick="openSavedQuestions()">🔖 Saved Questions</button>
+        <button class="btn-secondary feature-card" onclick="openMyKits()">📋 My Kits</button>
+      </div>
+
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="showScreen('screen-home')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 9.5L11 3l8 6.5V19a1 1 0 01-1 1H14v-5h-4v5H4a1 1 0 01-1-1V9.5z" stroke="#A6ABC8" stroke-width="1.8" fill="none"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" onclick="openMyKits()">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="#A6ABC8" stroke-width="1.8"/><path d="M7 8h8M7 12h6M7 16h4" stroke="#A6ABC8" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>My Kits</span>
+      </button>
+      <button class="nav-item" onclick="showScreen('screen-simulation')">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8"/><rect x="8" y="10" width="12" height="9" rx="2.5" stroke="#A6ABC8" stroke-width="1.8" fill="white"/></svg>
+        <span>Simulations</span>
+      </button>
+      <button class="nav-item nav-item--active">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="8" r="4" fill="#6C4DFF"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" fill="#6C4DFF"/></svg>
+        <span>Profile</span>
+      </button>
+    </nav>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
        ERROR TOAST
   ═══════════════════════════════════════ -->
   <div id="error-toast" class="error-toast hidden">
     <span id="error-toast-text">Something went wrong. Please try again.</span>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabaseClient.js?v=1"></script>
+  <script src="auth.js?v=1"></script>
+  <script src="db.js?v=1"></script>
   <script src="ai.js?v=2"></script>
   <script src="AnswerEditor.js?v=2"></script>
   <script src="Savedquestions.js?v=2"></script>
