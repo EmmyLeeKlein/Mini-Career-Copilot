@@ -32,7 +32,7 @@
   --radius-input: 16px;
   --radius-btn: 18px;
   --radius-pill: 999px;
-  --bottom-nav-h: 76px;
+  --bottom-nav-h: 64px;
 }
 
 /* ---------- Reset ---------- */
@@ -57,7 +57,8 @@ body {
 .screen {
   display: none;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: var(--bg);
   position: relative;
 }
@@ -315,7 +316,7 @@ body {
   box-shadow: 0px 8px 32px rgba(31,35,64,0.14);
   display: flex;
   align-items: center;
-  padding: 10px 8px;
+  padding: 6px 8px;
   z-index: 100;
   height: var(--bottom-nav-h);
 }
@@ -341,7 +342,7 @@ body {
 .screen-header {
   display: flex;
   align-items: center;
-  padding: 52px 20px 16px;
+  padding: 20px 20px 10px;
   gap: 12px;
   background: var(--surface);
 }
@@ -374,29 +375,29 @@ body {
 
 .kit-body {
   flex: 1;
-  padding: 24px 24px calc(var(--bottom-nav-h) + 16px);
+  padding: 12px 24px calc(var(--bottom-nav-h) + 6px);
   overflow-y: auto;
 }
 .kit-headline {
-  font-size: 28px;
+  font-size: 19px;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 120%;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 .kit-subline {
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-secondary);
-  line-height: 150%;
-  margin-bottom: 28px;
+  line-height: 135%;
+  margin-bottom: 12px;
 }
 
-.form-step { margin-bottom: 28px; }
+.form-step { margin-bottom: 10px; }
 .form-step-label {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 14px;
+  margin-bottom: 6px;
 }
 .step-num {
   color: var(--text-secondary);
@@ -407,22 +408,22 @@ body {
 .role-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 6px;
 }
 .role-card {
   background: var(--surface);
   border: 1.5px solid var(--border);
-  border-radius: 20px;
-  padding: 14px 10px;
+  border-radius: 14px;
+  padding: 7px 6px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
-  text-align: center;
-  line-height: 130%;
+  text-align: left;
+  line-height: 120%;
   box-shadow: var(--shadow-card);
   transition: all 0.15s;
   position: relative;
@@ -448,23 +449,24 @@ body {
   text-align: center;
 }
 .role-card-icon {
-  font-size: 26px;
+  font-size: 17px;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 /* Level Buttons */
 .level-buttons {
   display: flex;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 .level-btn {
   flex: 1;
-  height: 52px;
+  height: 40px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-pill);
   background: var(--surface);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
   display: flex;
@@ -484,17 +486,18 @@ body {
 .hint-card {
   background: #FFFBEF;
   border: 1px solid #F0D870;
-  border-radius: 16px;
-  padding: 14px 16px;
+  border-radius: 14px;
+  padding: 8px 12px;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 6px;
 }
-.hint-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.hint-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
 .hint-text {
-  font-size: 13px;
+  font-size: 11px;
   color: #7A5C00;
-  line-height: 150%;
+  line-height: 140%;
   font-weight: 400;
 }
 
@@ -513,11 +516,11 @@ body {
    ============================================================ */
 .btn-primary {
   width: 100%;
-  height: 56px;
+  height: 46px;
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
   color: white;
   border-radius: var(--radius-btn);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -525,7 +528,7 @@ body {
   gap: 10px;
   box-shadow: var(--shadow-float);
   transition: opacity 0.15s, transform 0.1s;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
@@ -533,15 +536,15 @@ body {
 
 .btn-secondary {
   width: 100%;
-  height: 52px;
+  height: 40px;
   background: var(--surface);
   color: var(--primary);
   border: 1.5px solid var(--primary);
   border-radius: var(--radius-btn);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   transition: background 0.15s;
-  margin-top: 12px;
+  margin-top: 8px;
 }
 .btn-secondary:hover { background: var(--primary-light); }
 
@@ -563,7 +566,7 @@ body {
    ============================================================ */
 .questions-header {
   background: white;
-  padding: 52px 24px 20px;
+  padding: 18px 24px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -577,25 +580,26 @@ body {
   margin-bottom: 4px;
 }
 .qh-title {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--text-primary);
 }
 .qh-meta {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
   font-weight: 400;
 }
 .qh-progress-circle {
   position: relative;
-  width: 56px; height: 56px;
+  width: 44px; height: 44px;
   flex-shrink: 0;
 }
+.qh-progress-circle svg { width: 100%; height: 100%; }
 .progress-circle-label {
   position: absolute;
   inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--primary);
 }
@@ -609,8 +613,8 @@ body {
 }
 .tab-btn {
   flex: 1;
-  height: 44px;
-  font-size: 14px;
+  height: 34px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
   border-bottom: 2.5px solid transparent;
@@ -627,23 +631,23 @@ body {
 .questions-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 20px calc(var(--bottom-nav-h) + 24px);
+  padding: 10px 20px calc(var(--bottom-nav-h) + 8px);
 }
 
 /* Question List Items */
 .questions-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 7px;
+  margin-bottom: 10px;
 }
 .question-item {
   background: var(--surface);
-  border-radius: 20px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   box-shadow: var(--shadow-card);
   cursor: pointer;
   transition: transform 0.1s, box-shadow 0.1s;
@@ -651,18 +655,18 @@ body {
 .question-item:active { transform: scale(0.99); }
 .question-item:hover { box-shadow: 0px 12px 28px rgba(31,35,64,0.12); }
 .question-num-badge {
-  width: 34px; height: 34px;
+  width: 26px; height: 26px;
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: white;
   flex-shrink: 0;
 }
 .question-item-body { flex: 1; min-width: 0; }
 .question-item-text {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
   line-height: 140%;
@@ -1240,23 +1244,23 @@ body {
 .sim-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 24px 16px;
+  padding: 10px 24px 8px;
 }
 
-.sim-setup { margin-bottom: 8px; }
+.sim-setup { margin-bottom: 6px; }
 
 .sim-scenario-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 12px 0 16px;
+  gap: 8px;
+  margin: 8px 0 10px;
 }
 .sim-scenario-card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
-  padding: 14px;
+  gap: 4px;
+  padding: 9px 10px;
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-card-sm);
@@ -1268,9 +1272,9 @@ body {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(108,77,255,0.12);
 }
-.sim-scenario-emoji { font-size: 24px; line-height: 1; }
+.sim-scenario-emoji { font-size: 18px; line-height: 1; }
 .sim-scenario-name {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -1279,19 +1283,19 @@ body {
   background: var(--ai-bg);
   border: 1px solid var(--ai-border);
   border-radius: var(--radius-input);
-  padding: 14px 16px;
-  margin-bottom: 16px;
+  padding: 9px 12px;
+  margin-bottom: 8px;
 }
 .sim-detail-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .sim-detail-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
-  line-height: 145%;
+  line-height: 135%;
 }
 
 .sim-start-btn { width: 100%; }
