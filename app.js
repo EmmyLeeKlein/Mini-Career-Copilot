@@ -321,7 +321,7 @@ function renderDetail() {
     structureList.appendChild(li);
   });
 
-  document.getElementById('detail-example').textContent = q.example;
+  document.getElementById('detail-example').textContent = getEditedAnswer(currentQuestionIndex) || q.example;
 
   // Show edited indicator on action buttons if user has saved an edit
   const editBtn = document.querySelector('.detail-action-btn--secondary');
