@@ -70,8 +70,8 @@ body {
 /* Hero gradient */
 .home-hero {
   background: linear-gradient(145deg, #8B6FFF 0%, #6C4DFF 40%, #5B3EFF 100%);
-  border-radius: 0 0 36px 36px;
-  padding: 20px 24px 28px;
+  border-radius: 0 0 28px 28px;
+  padding: 10px 24px 14px;
   position: relative;
   overflow: hidden;
 }
@@ -95,7 +95,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
+  margin-bottom: 10px;
   position: relative;
   z-index: 1;
 }
@@ -117,7 +117,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 24px 16px;
+  padding: 10px 24px 6px;
 }
 .brand-lockup {
   display: flex;
@@ -172,20 +172,20 @@ body {
   z-index: 1;
 }
 .home-title {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 800;
   color: white;
   line-height: 120%;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .home-subtitle {
-  font-size: 15px;
+  font-size: 13px;
   color: rgba(255,255,255,0.82);
-  line-height: 150%;
+  line-height: 140%;
   font-weight: 400;
 }
 .illus-circle {
-  width: 110px; height: 110px;
+  width: 72px; height: 72px;
   background: rgba(255,255,255,0.15);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -198,16 +198,16 @@ body {
 /* Home Body */
 .home-body {
   flex: 1;
-  padding: 24px 24px calc(var(--bottom-nav-h) + 16px);
+  padding: 10px 24px calc(var(--bottom-nav-h) + 8px);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 .section-label {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 /* Feature Cards */
@@ -219,9 +219,9 @@ body {
 .feature-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   border-radius: var(--radius-card);
-  padding: 18px 16px;
+  padding: 10px 14px;
   text-align: left;
   transition: transform 0.15s, box-shadow 0.15s;
   box-shadow: var(--shadow-card);
@@ -235,8 +235,8 @@ body {
   background: linear-gradient(130deg, #6EA8FF 0%, #4B7FFF 100%);
 }
 .feature-card-icon {
-  width: 52px; height: 52px;
-  border-radius: 16px;
+  width: 40px; height: 40px;
+  border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
@@ -271,16 +271,16 @@ body {
   flex: 1;
   background: var(--surface);
   border-radius: var(--radius-card-sm);
-  padding: 16px 12px;
+  padding: 8px 12px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
 }
 .progress-icon {
-  width: 36px; height: 36px;
-  border-radius: 12px;
+  width: 28px; height: 28px;
+  border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
 }
 .progress-icon--purple { background: var(--primary-light); }
