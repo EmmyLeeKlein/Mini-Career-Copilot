@@ -299,16 +299,21 @@ body {
 /* ============================================================
    HOME MENU (hamburger dropdown)
    ============================================================ */
+.home-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,16,32,0.35);
+  z-index: 290;
+}
 .home-menu-panel {
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 430px;
+  left: max(0px, calc((100vw - 430px) / 2));
+  width: min(60vw, 258px);
   height: 100vh;
   height: 100dvh;
   background: var(--surface);
+  box-shadow: 4px 0 24px rgba(31,35,64,0.18);
   z-index: 300;
   overflow-y: auto;
   padding: env(safe-area-inset-top) 0 0;
