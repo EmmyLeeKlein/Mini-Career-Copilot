@@ -57,6 +57,29 @@ function showScreen(id) {
   }
 }
 
+// ─── Home Menu (hamburger) ────────────────────────────────────
+function toggleHomeMenu() {
+  const panel = document.getElementById('home-menu-panel');
+  const backdrop = document.getElementById('home-menu-backdrop');
+  if (!panel || !backdrop) return;
+
+  if (panel.classList.contains('hidden')) {
+    const username = typeof currentUser !== 'undefined' && currentUser
+      ? (currentUser.user_metadata && currentUser.user_metadata.username) || currentUser.email
+      : 'Guest';
+    document.getElementById('home-menu-username').textContent = username;
+    panel.classList.remove('hidden');
+    backdrop.classList.remove('hidden');
+  } else {
+    closeHomeMenu();
+  }
+}
+
+function closeHomeMenu() {
+  document.getElementById('home-menu-panel').classList.add('hidden');
+  document.getElementById('home-menu-backdrop').classList.add('hidden');
+}
+
 // ─── My Kits ─────────────────────────────────────────────────
 // Opens the user's existing kit (with its saved questions intact)
 // instead of starting a brand-new one. Falls back to the builder
