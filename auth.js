@@ -27,17 +27,20 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   renderProfileScreen();
   updateHomeGreeting();
+  updateHomeProgress();
 
   supabaseClient.auth.onAuthStateChange((_event, session) => {
     currentUser = session ? session.user : null;
     renderProfileScreen();
     updateHomeGreeting();
+    updateHomeProgress();
   });
 });
 
 // ─── Continue as Guest ─────────────────────────────────────────────────────────
 function continueAsGuest() {
   localStorage.setItem(GUEST_FLAG_KEY, '1');
+  updateHomeProgress();
   showScreen('screen-home');
 }
 
@@ -73,6 +76,7 @@ async function handleRegister() {
     localStorage.removeItem(GUEST_FLAG_KEY);
     renderProfileScreen();
     updateHomeGreeting();
+    updateHomeProgress();
     showToast('Account created! You\'re signed in.');
     showScreen('screen-home');
   } catch (err) {
@@ -105,6 +109,7 @@ async function handleLogin() {
     localStorage.removeItem(GUEST_FLAG_KEY);
     renderProfileScreen();
     updateHomeGreeting();
+    updateHomeProgress();
     const username = currentUser.user_metadata && currentUser.user_metadata.username;
     showToast(username ? `Welcome back, ${username}!` : 'Signed in!');
     showScreen('screen-home');
@@ -123,6 +128,7 @@ async function handleSignOut() {
   localStorage.removeItem(GUEST_FLAG_KEY);
   renderProfileScreen();
   updateHomeGreeting();
+  updateHomeProgress();
   showToast('Signed out.');
   showScreen('screen-welcome');
 }
@@ -179,6 +185,34 @@ function updateHomeGreeting() {
 
   const firstName = username.trim().split(/\s+/)[0];
   el.textContent = `Hi ${firstName}! 👋`;
+}
+
+// ─── Home progress stats ────────────────────────────────────────────────────────
+// Guests see a "register to see your progress" prompt instead of fake numbers;
+// signed-in users get their real counts from Supabase (see db.js).
+async function updateHomeProgress() {
+  const row = document.getElementById('progress-row');
+  const cta = document.getElementById('progress-guest-cta');
+  if (!row || !cta) return;
+
+  if (!currentUser) {
+    row.classList.add('hidden');
+    cta.classList.remove('hidden');
+    return;
+  }
+
+  cta.classList.add('hidden');
+  row.classList.remove('hidden');
+
+  const stats = await dbGetProgressStats();
+  document.getElementById('progress-kits').textContent  = stats ? stats.kits : 0;
+  document.getElementById('progress-saved').textContent = stats ? stats.savedQuestions : 0;
+  document.getElementById('progress-sims').textContent  = stats ? stats.simulations : 0;
+}
+
+function goToRegister() {
+  showScreen('screen-welcome');
+  showAuthForm('register');
 }
 
 function setAuthLoading(btnId, on) {

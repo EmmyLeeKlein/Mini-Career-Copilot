@@ -147,6 +147,34 @@ async function dbAddSimulationMessage(simulationId, turnNumber, sender, content)
   }
 }
 
+// ─── Progress stats (home screen) ──────────────────────────────────────────────
+/**
+ * Returns { kits, savedQuestions, simulations } counts for the signed-in
+ * user, or null for guests / on failure.
+ */
+async function dbGetProgressStats() {
+  if (!currentUser) return null;
+  try {
+    const [kits, saved, sims] = await Promise.all([
+      supabaseClient.from('kits').select('id', { count: 'exact', head: true }).eq('user_id', currentUser.id),
+      supabaseClient.from('saved_questions').select('kit_question_id', { count: 'exact', head: true }).eq('user_id', currentUser.id),
+      supabaseClient.from('simulations').select('id', { count: 'exact', head: true }).eq('user_id', currentUser.id)
+    ]);
+    if (kits.error) throw kits.error;
+    if (saved.error) throw saved.error;
+    if (sims.error) throw sims.error;
+
+    return {
+      kits: kits.count || 0,
+      savedQuestions: saved.count || 0,
+      simulations: sims.count || 0
+    };
+  } catch (err) {
+    console.warn('dbGetProgressStats failed:', err.message);
+    return null;
+  }
+}
+
 async function dbCompleteSimulation(simulationId, feedback) {
   if (!currentUser || !simulationId) return;
   try {

@@ -282,6 +282,19 @@ body {
   text-align: center;
   line-height: 140%;
 }
+.progress-guest-cta {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-card-sm);
+  padding: 14px 12px;
+  box-shadow: var(--shadow-card);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+}
+.progress-guest-cta:active { transform: scale(0.98); }
 
 /* ============================================================
    BOTTOM NAVIGATION

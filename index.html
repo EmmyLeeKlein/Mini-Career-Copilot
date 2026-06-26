@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="assets/briefcase.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
 
@@ -104,29 +104,32 @@
 
       <!-- Progress Section -->
       <p class="section-label">Your progress</p>
-      <div class="progress-row">
+      <div class="progress-row" id="progress-row">
         <div class="progress-item">
           <div class="progress-icon progress-icon--purple">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#6C4DFF" stroke-width="2" stroke-dasharray="30 14" stroke-dashoffset="-3" stroke-linecap="round"/><circle cx="10" cy="10" r="3" fill="#6C4DFF"/></svg>
           </div>
-          <div class="progress-num">3</div>
+          <div class="progress-num" id="progress-kits">0</div>
           <div class="progress-lbl">Kits Created</div>
         </div>
         <div class="progress-item">
           <div class="progress-icon progress-icon--yellow">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5 5.6.8-4 3.9.9 5.5L10 15l-4.9 2.2.9-5.5L2 7.8l5.6-.8L10 2z" fill="#FFB800"/></svg>
           </div>
-          <div class="progress-num">12</div>
+          <div class="progress-num" id="progress-saved">0</div>
           <div class="progress-lbl">Questions Saved</div>
         </div>
         <div class="progress-item">
           <div class="progress-icon progress-icon--blue">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="12" width="3" height="6" rx="1" fill="#5B8EFF"/><rect x="8.5" y="8" width="3" height="10" rx="1" fill="#5B8EFF"/><rect x="14" y="4" width="3" height="14" rx="1" fill="#5B8EFF"/></svg>
           </div>
-          <div class="progress-num">5</div>
+          <div class="progress-num" id="progress-sims">0</div>
           <div class="progress-lbl">Simulations</div>
         </div>
       </div>
+      <button class="progress-guest-cta hidden" id="progress-guest-cta" onclick="goToRegister()">
+        Register to see your progress
+      </button>
 
     </div>
 
@@ -766,8 +769,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="supabaseClient.js?v=1"></script>
-  <script src="auth.js?v=1"></script>
-  <script src="db.js?v=1"></script>
+  <script src="auth.js?v=2"></script>
+  <script src="db.js?v=2"></script>
   <script src="ai.js?v=2"></script>
   <script src="AnswerEditor.js?v=2"></script>
   <script src="Savedquestions.js?v=2"></script>
