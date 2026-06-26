@@ -60,8 +60,7 @@ function showScreen(id) {
 // ─── Home Menu (hamburger) ────────────────────────────────────
 function toggleHomeMenu() {
   const panel = document.getElementById('home-menu-panel');
-  const backdrop = document.getElementById('home-menu-backdrop');
-  if (!panel || !backdrop) return;
+  if (!panel) return;
 
   if (panel.classList.contains('hidden')) {
     const username = typeof currentUser !== 'undefined' && currentUser
@@ -69,7 +68,6 @@ function toggleHomeMenu() {
       : 'Guest';
     document.getElementById('home-menu-username').textContent = username;
     panel.classList.remove('hidden');
-    backdrop.classList.remove('hidden');
   } else {
     closeHomeMenu();
   }
@@ -77,7 +75,6 @@ function toggleHomeMenu() {
 
 function closeHomeMenu() {
   document.getElementById('home-menu-panel').classList.add('hidden');
-  document.getElementById('home-menu-backdrop').classList.add('hidden');
 }
 
 // ─── My Kits ─────────────────────────────────────────────────
