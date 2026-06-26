@@ -747,6 +747,7 @@ body {
 
 .detail-scroll {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: 0 20px 40px;
   display: flex;
