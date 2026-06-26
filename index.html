@@ -672,6 +672,10 @@
       <!-- Register form -->
       <div id="register-form" class="hidden">
         <div class="form-step">
+          <p class="form-step-label">Username</p>
+          <input type="text" id="register-username" class="editor-textarea" style="min-height:auto;height:44px" placeholder="Your display name" autocomplete="username" />
+        </div>
+        <div class="form-step">
           <p class="form-step-label">Email</p>
           <input type="email" id="register-email" class="editor-textarea" style="min-height:auto;height:44px" placeholder="you@example.com" autocomplete="email" />
         </div>
@@ -708,6 +712,10 @@
 
       <!-- Signed in -->
       <div id="profile-user-view" class="hidden">
+        <div class="form-step">
+          <p class="form-step-label">Username</p>
+          <p class="kit-headline" id="profile-username" style="font-size:18px"></p>
+        </div>
         <div class="form-step">
           <p class="form-step-label">Signed in as</p>
           <p class="kit-headline" id="profile-email" style="font-size:18px"></p>

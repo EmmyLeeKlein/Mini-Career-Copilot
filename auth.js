@@ -41,13 +41,14 @@ function continueAsGuest() {
 
 // ─── Register ──────────────────────────────────────────────────────────────────
 async function handleRegister() {
+  const username = document.getElementById('register-username').value.trim();
   const email    = document.getElementById('register-email').value.trim();
   const password = document.getElementById('register-password').value;
   const errorEl  = document.getElementById('register-error');
   errorEl.classList.remove('visible');
 
-  if (!email || !password) {
-    errorEl.textContent = 'Please enter an email and password.';
+  if (!username || !email || !password) {
+    errorEl.textContent = 'Please enter a username, email and password.';
     errorEl.classList.add('visible');
     return;
   }
@@ -59,7 +60,11 @@ async function handleRegister() {
 
   setAuthLoading('register-submit-btn', true);
   try {
-    const { data, error } = await supabaseClient.auth.signUp({ email, password });
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: { data: { username } }
+    });
     if (error) throw error;
 
     currentUser = data.user;
@@ -96,7 +101,8 @@ async function handleLogin() {
     currentUser = data.user;
     localStorage.removeItem(GUEST_FLAG_KEY);
     renderProfileScreen();
-    showToast('Signed in!');
+    const username = currentUser.user_metadata && currentUser.user_metadata.username;
+    showToast(username ? `Welcome back, ${username}!` : 'Signed in!');
     showScreen('screen-home');
   } catch (err) {
     errorEl.textContent = err.message || 'Could not sign in.';
@@ -146,6 +152,8 @@ function renderProfileScreen() {
     userView.classList.remove('hidden');
     guestView.classList.add('hidden');
     document.getElementById('profile-email').textContent = currentUser.email;
+    document.getElementById('profile-username').textContent =
+      (currentUser.user_metadata && currentUser.user_metadata.username) || '—';
   } else {
     userView.classList.add('hidden');
     guestView.classList.remove('hidden');
