@@ -760,6 +760,7 @@ body {
   border-radius: var(--radius-card);
   padding: 20px;
   box-shadow: var(--shadow-card);
+  flex-shrink: 0;
 }
 .detail-meta {
   display: flex;
@@ -792,6 +793,7 @@ body {
   border: 1px solid var(--ai-border);
   border-radius: var(--radius-card-sm);
   overflow: hidden;
+  flex-shrink: 0;
 }
 .ai-expand-header {
   display: flex;
@@ -861,6 +863,7 @@ body {
 .detail-actions {
   display: flex;
   gap: 12px;
+  flex-shrink: 0;
 }
 .detail-action-btn {
   flex: 1;
@@ -892,6 +895,7 @@ body {
   display: flex;
   gap: 12px;
   padding-bottom: 80px;
+  flex-shrink: 0;
 }
 .detail-nav-btn {
   flex: 1;
