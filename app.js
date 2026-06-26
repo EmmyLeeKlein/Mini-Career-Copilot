@@ -64,10 +64,13 @@ function toggleHomeMenu() {
   if (!panel || !backdrop) return;
 
   if (panel.classList.contains('hidden')) {
-    const username = typeof currentUser !== 'undefined' && currentUser
+    const isSignedIn = typeof currentUser !== 'undefined' && !!currentUser;
+    const username = isSignedIn
       ? (currentUser.user_metadata && currentUser.user_metadata.username) || currentUser.email
       : 'Guest';
     document.getElementById('home-menu-username').textContent = username;
+    document.getElementById('home-menu-logout').classList.toggle('hidden', !isSignedIn);
+    document.getElementById('home-menu-register').classList.toggle('hidden', isSignedIn);
     panel.classList.remove('hidden');
     backdrop.classList.remove('hidden');
   } else {

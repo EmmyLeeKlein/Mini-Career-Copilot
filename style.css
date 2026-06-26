@@ -307,16 +307,16 @@ body {
 }
 .home-menu-panel {
   position: fixed;
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
   left: max(0px, calc((100vw - 430px) / 2));
   width: min(60vw, 258px);
-  height: 100vh;
-  height: 100dvh;
+  max-height: calc(100% - 40px);
   background: var(--surface);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
   box-shadow: 4px 0 24px rgba(31,35,64,0.18);
   z-index: 300;
   overflow-y: auto;
-  padding: env(safe-area-inset-top) 0 0;
+  padding-top: 4px;
 }
 .home-menu-header {
   display: flex;
@@ -346,6 +346,8 @@ body {
   text-align: left;
 }
 .home-menu-item:active { background: var(--bg); }
+.home-menu-item--danger { color: #E0445B; }
+.home-menu-item--accent { color: var(--primary); }
 
 /* ============================================================
    BOTTOM NAVIGATION
