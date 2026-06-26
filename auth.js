@@ -26,10 +26,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderProfileScreen();
+  updateHomeGreeting();
 
   supabaseClient.auth.onAuthStateChange((_event, session) => {
     currentUser = session ? session.user : null;
     renderProfileScreen();
+    updateHomeGreeting();
   });
 });
 
@@ -70,6 +72,7 @@ async function handleRegister() {
     currentUser = data.user;
     localStorage.removeItem(GUEST_FLAG_KEY);
     renderProfileScreen();
+    updateHomeGreeting();
     showToast('Account created! You\'re signed in.');
     showScreen('screen-home');
   } catch (err) {
@@ -101,6 +104,7 @@ async function handleLogin() {
     currentUser = data.user;
     localStorage.removeItem(GUEST_FLAG_KEY);
     renderProfileScreen();
+    updateHomeGreeting();
     const username = currentUser.user_metadata && currentUser.user_metadata.username;
     showToast(username ? `Welcome back, ${username}!` : 'Signed in!');
     showScreen('screen-home');
@@ -118,6 +122,7 @@ async function handleSignOut() {
   currentUser = null;
   localStorage.removeItem(GUEST_FLAG_KEY);
   renderProfileScreen();
+  updateHomeGreeting();
   showToast('Signed out.');
   showScreen('screen-welcome');
 }
@@ -158,6 +163,22 @@ function renderProfileScreen() {
     userView.classList.add('hidden');
     guestView.classList.remove('hidden');
   }
+}
+
+// ─── Home greeting ──────────────────────────────────────────────────────────────
+// "First Last" -> take the first word. A single-word username (nickname) is used as-is.
+function updateHomeGreeting() {
+  const el = document.getElementById('home-greeting');
+  if (!el) return;
+
+  const username = currentUser && currentUser.user_metadata && currentUser.user_metadata.username;
+  if (!username) {
+    el.textContent = 'Hi there! 👋';
+    return;
+  }
+
+  const firstName = username.trim().split(/\s+/)[0];
+  el.textContent = `Hi ${firstName}! 👋`;
 }
 
 function setAuthLoading(btnId, on) {
