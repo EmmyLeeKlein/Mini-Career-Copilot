@@ -185,17 +185,6 @@ body {
   line-height: 140%;
   font-weight: 400;
 }
-.illus-circle {
-  width: 72px; height: 72px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.illus-avatar {
-  display: flex; align-items: center; justify-content: center;
-}
-
 /* Home Body */
 .home-body {
   flex: 1;
