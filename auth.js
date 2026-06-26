@@ -110,9 +110,17 @@ async function handleLogin() {
 async function handleSignOut() {
   await supabaseClient.auth.signOut();
   currentUser = null;
+  localStorage.removeItem(GUEST_FLAG_KEY);
   renderProfileScreen();
   showToast('Signed out.');
   showScreen('screen-welcome');
+}
+
+// ─── Log Out (home screen power icon) ───────────────────────────────────────
+function confirmLogout() {
+  if (window.confirm('Are you sure you want to log out?')) {
+    handleSignOut();
+  }
 }
 
 // ─── Toggle Login / Register forms (on the welcome gate) ─────────────────────
